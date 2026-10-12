@@ -1,3 +1,7 @@
 package com.fuelingchat
 
-fun main() = Unit
+import kotlin.system.exitProcess
+
+fun main() {
+    exitProcess(AppModule().boot())
+}

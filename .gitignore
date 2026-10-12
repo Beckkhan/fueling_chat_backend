@@ -1,5 +1,6 @@
 # Secrets
 .env
+.env.stage-backup
 
 # Build outputs
 build/

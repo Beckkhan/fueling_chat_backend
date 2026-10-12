@@ -9,7 +9,7 @@ Phase 3 of 6: DECOMPOSITION. Foundation backlog for `main` — 10 atomic tasks, 
 | [T01](T01.md) | Backend build config & linters | `backend-coder` | — | — | `done` |
 | [T02](T02.md) | Typed AppConfig & fail-fast validation | `backend-coder` | T01 | CONTRACT-CONFIG-001 | `done` |
 | [T03](T03.md) | Logging infrastructure | `backend-coder` | T01 | CONTRACT-LOG-001 | `done` |
-| [T04](T04.md) | DI wiring | `backend-coder` | T02, T03, T05, T06 | CONTRACT-DI-001 | `todo` |
+| [T04](T04.md) | DI wiring | `backend-coder` | T02, T03, T05, T06 | CONTRACT-DI-001 | `done` |
 | [T05](T05.md) | Database infrastructure | `backend-coder` | T02 | CONTRACT-DB-001 | `done` |
 | [T06](T06.md) | Tool definition & handler | `backend-coder` | T05 | CONTRACT-TOOL-001 | `done` |
 | [T07](T07.md) | Frontend build config & linters | `frontend-coder` | — | — | `todo` |
