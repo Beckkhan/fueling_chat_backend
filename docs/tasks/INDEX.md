@@ -15,7 +15,7 @@ Phase 3 of 6: DECOMPOSITION. Foundation backlog for `main` — 10 atomic tasks, 
 | [T07](T07.md) | Frontend build config & linters | `frontend-coder` | — | — | `done` |
 | [T08](T08.md) | UI components & state | `frontend-coder` | T07 | CONTRACT-UI-001 | `done` |
 | [T09](T09.md) | API client & integration | `frontend-coder` | T08 | CONTRACT-API-001, CONTRACT-API-002 | `done` |
-| [T10](T10.md) | CI workflows | `git-reviewer` | T01, T07 | — | `todo` |
+| [T10](T10.md) | CI workflows | `git-reviewer` | T01, T07 | — | `done` |
 
 ## Conventions
 
