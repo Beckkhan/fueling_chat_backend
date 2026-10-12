@@ -8,16 +8,25 @@ import org.jetbrains.exposed.sql.Database
 class DbPools(
     config: AppConfig,
 ) {
-    val fueling: Database = connect(config.fuelingDbUrl, config)
-    val gasStation: Database = connect(config.gasStationDbUrl, config)
-    val payment: Database = connect(config.paymentDbUrl, config)
-    val vendors: Database = connect(config.vendorsDbUrl, config)
+    private val fuelingPool = BoundPool(config.fuelingDbUrl, config)
+    private val gasStationPool = BoundPool(config.gasStationDbUrl, config)
+    private val paymentPool = BoundPool(config.paymentDbUrl, config)
+    private val vendorsPool = BoundPool(config.vendorsDbUrl, config)
 
-    private fun connect(
+    val fueling: Database = fuelingPool.database
+    val gasStation: Database = gasStationPool.database
+    val payment: Database = paymentPool.database
+    val vendors: Database = vendorsPool.database
+
+    fun close() {
+        listOf(fuelingPool, gasStationPool, paymentPool, vendorsPool).forEach { it.close() }
+    }
+
+    private class BoundPool(
         url: String,
         config: AppConfig,
-    ): Database {
-        val dataSource =
+    ) {
+        private val dataSource =
             HikariDataSource(
                 HikariConfig().apply {
                     jdbcUrl = url
@@ -30,6 +39,11 @@ class DbPools(
                     connectionInitSql = "SET SESSION CHARACTERISTICS AS TRANSACTION READ ONLY"
                 },
             )
-        return Database.connect(dataSource)
+
+        val database: Database = Database.connect(dataSource)
+
+        fun close() {
+            dataSource.close()
+        }
     }
 }

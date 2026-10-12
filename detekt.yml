@@ -9,3 +9,7 @@ config:
 style:
   MagicNumber:
     active: false
+
+naming:
+  ConstructorParameterNaming:
+    excludes: ['**/GetFuelingInfoArgs.kt']

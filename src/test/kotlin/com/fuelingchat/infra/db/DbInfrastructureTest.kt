@@ -3,6 +3,7 @@ package com.fuelingchat.infra.db
 import com.fuelingchat.config.AppConfig
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -15,10 +16,18 @@ class DbInfrastructureTest {
     @TempDir
     lateinit var tempDir: Path
 
+    private val openPools = mutableListOf<DbPools>()
+
     private val localFuelingUrl = "jdbc:postgresql://localhost:25432/fueling"
     private val localGasStationUrl = "jdbc:postgresql://localhost:25432/gas_station"
     private val localPaymentUrl = "jdbc:postgresql://localhost:25432/payment"
     private val localVendorsUrl = "jdbc:postgresql://localhost:25432/vendors"
+
+    @AfterEach
+    fun closePools() {
+        openPools.forEach(DbPools::close)
+        openPools.clear()
+    }
 
     @Test
     fun allFourDatabasesExposeExpectedTables() {
@@ -143,7 +152,7 @@ class DbInfrastructureTest {
                     """.trimIndent(),
                 ),
             ),
-        )
+        ).also(openPools::add)
 
     private fun envFile(content: String): Path {
         val file = tempDir.resolve("db-test.env")

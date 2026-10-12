@@ -1,0 +1,15 @@
+{
+  "name": "get_fueling_info",
+  "description": "Look up one fueling by its id across four internal databases (fueling, gas_station, payment, vendors). Returns the fueling record, its gas station, its payments and the vendor-side order rows as aggregated JSON. Timestamps are ISO-8601 UTC strings; JSON columns are returned as their JSON text.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "fueling_id": {
+        "type": "string",
+        "description": "The fueling identifier to look up. Use exactly the value given by the user."
+      }
+    },
+    "required": ["fueling_id"],
+    "additionalProperties": false
+  }
+}
