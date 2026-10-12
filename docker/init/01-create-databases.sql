@@ -1,0 +1,4 @@
+CREATE DATABASE fueling;
+CREATE DATABASE gas_station;
+CREATE DATABASE payment;
+CREATE DATABASE vendors;

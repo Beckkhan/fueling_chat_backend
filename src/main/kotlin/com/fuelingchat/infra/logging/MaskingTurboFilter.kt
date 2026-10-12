@@ -16,11 +16,14 @@ class MaskingTurboFilter : TurboFilter() {
         params: Array<Any?>?,
         throwable: Throwable?,
     ): FilterReply {
-        val formatted = MessageFormatter.arrayFormat(format, params).message
+        val formatted = format?.let { MessageFormatter.arrayFormat(it, params).message } ?: return FilterReply.NEUTRAL
         val masked = SecretMasker.mask(formatted)
-        if (masked == formatted) return FilterReply.NEUTRAL
-        logger.log(marker, MASKING_FQCN, Level.toLocationAwareLoggerInteger(level), masked, null, throwable)
-        return FilterReply.DENY
+        return if (masked == formatted) {
+            FilterReply.NEUTRAL
+        } else {
+            logger.log(marker, MASKING_FQCN, Level.toLocationAwareLoggerInteger(level), masked, null, throwable)
+            FilterReply.DENY
+        }
     }
 
     private companion object {
