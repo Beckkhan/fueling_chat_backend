@@ -13,8 +13,6 @@ You may not change requirements, architecture, agent scopes, or task definitions
 
 ## Steps
 
-BRANCH OVERRIDE: on branch third, ignore the sequential skeleton in this section and follow the Parallel Spawning Protocol (Phase 0-3); on first/second follow this sequential skeleton.
-
 1. Read `docs/tasks/INDEX.md` to get the task backlog and dependency graph.
 2. Interpret `$ARGUMENTS`:
    - empty or `all` — run every `todo` task whose dependencies are `done`, in dependency order
@@ -28,14 +26,7 @@ BRANCH OVERRIDE: on branch third, ignore the sequential skeleton in this section
       - spawn template (token-efficient): task title + acceptance criteria + contract IDs only — NO restated definition content, NO verbatim contract text
    c. Wait for the agent to complete: it must append "STATUS: DONE" to `docs/tasks/T<n>.md` and commit its code.
    d. Append the agent's row to `metrics/cto-ledger.md` per the Token Tracking Protocol.
-4. After the owner agent finishes, spawn the quality agents sequentially on the task's diff:
-   Spawn quality agents sequentially: test-engineer -> correctness-reviewer -> simplicity-reviewer -> git-reviewer -> code-style-reviewer.
-   - `test-engineer` → writes `reviews/T<n>-test-engineer.md`
-   - on PASS: `correctness-reviewer` → writes `reviews/T<n>-correctness-reviewer.md`
-   - on PASS: `simplicity-reviewer` → writes `reviews/T<n>-simplicity-reviewer.md`
-   - on PASS: `git-reviewer` → writes `reviews/T<n>-git-reviewer.md`
-   - on PASS: `code-style-reviewer` → writes `reviews/T<n>-code-style-reviewer.md`
-   Each reviewer reads the code and task file, then writes its verdict file.
+4. Run the task pipeline per the Parallel Spawning Protocol (Phase 0-3) defined below.
 5. If ANY reviewer verdict is "FAIL":
    - Increment the task's handback count (reported in the handoff summary; the ledger holds per-agent rows only).
    - Revert task status to "todo" in `docs/tasks/T<n>.md` and append reviewer findings.

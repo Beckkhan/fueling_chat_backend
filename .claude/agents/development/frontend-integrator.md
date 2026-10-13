@@ -1,6 +1,6 @@
 ---
 name: frontend-integrator
-description: "Wires frontend blocks produced by parallel frontend-implementers, runs full verification. For third branch only."
+description: "Wires frontend blocks produced by parallel frontend-implementers, runs full verification."
 model: deepseek-v4-flash
 ---
 

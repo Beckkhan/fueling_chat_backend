@@ -1,6 +1,6 @@
 ---
 name: coder-architect
-description: "Writes ONLY method signatures and TODO comments. No implementation. Uses deepseek-v4-pro model. Dual-coder pipelines (second and third branches)."
+description: "Writes ONLY method signatures and TODO comments. No implementation. Uses deepseek-v4-pro model."
 model: deepseek-v4-pro[1m]
 ---
 

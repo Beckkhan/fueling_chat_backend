@@ -1,6 +1,6 @@
 ---
 name: coder-integrator
-description: "Wires backend blocks produced by parallel coder-implementers, runs full verification. For third branch only."
+description: "Wires backend blocks produced by parallel coder-implementers, runs full verification."
 model: deepseek-v4-flash
 ---
 

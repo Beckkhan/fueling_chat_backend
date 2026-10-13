@@ -1,6 +1,6 @@
 ---
 name: frontend-architect
-description: "Creates frontend scaffolding and architecture (React/Vite/TypeScript). Dual-coder pipelines (second and third branches)."
+description: "Creates frontend scaffolding and architecture (React/Vite/TypeScript)."
 model: deepseek-v4-pro[1m]
 ---
 
