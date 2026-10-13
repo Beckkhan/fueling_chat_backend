@@ -1,7 +1,7 @@
 ---
 name: frontend-implementer-skill
 ---
-# Frontend Implementer Skill (Second Branch Only)
+# Frontend Implementer Skill
 ## Workflow
 1. Read docs/tasks/T<n>.md, the scaffold in /Users/Slava/fueling_chat_front/src/, and docs/project-specification.md.
 2. Fill TODO markers with real React components, hooks, and API calls. Write tests with Vitest + React Testing Library.

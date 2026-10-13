@@ -1,7 +1,7 @@
 ---
 name: frontend-architect-skill
 ---
-# Frontend Architect Skill (Second Branch Only)
+# Frontend Architect Skill
 ## Workflow
 1. Read docs/tasks/T<n>.md and docs/project-specification.md.
 2. Write scaffold in src/ of /Users/Slava/fueling_chat_front: file layout (components/, hooks/, api/, types/), component structure and props interfaces, state-management approach, API client types from the backend contracts, mock data structure, and TODO comments. No implementation logic.

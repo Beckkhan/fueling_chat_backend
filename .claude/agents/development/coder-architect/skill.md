@@ -1,7 +1,7 @@
 ---
 name: coder-architect-skill
 ---
-# Coder Architect Skill (Alternative Branch Only)
+# Coder Architect Skill
 ## Workflow
 1. Read docs/tasks/T<n>.md and docs/project-specification.md.
 2. Write scaffold in src/main/kotlin/: method signatures, class structures, interfaces, data classes, and TODO comments. No implementation logic.

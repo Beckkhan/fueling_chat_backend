@@ -4,7 +4,7 @@ description: "Fills frontend scaffold with implementation (React/Vite/TypeScript
 model: deepseek-v4-flash
 ---
 
-# Frontend Implementer (Second Branch Only)
+# Frontend Implementer
 
 ## Role
 You read the scaffold created by frontend-architect and IMPLEMENT the code inside TODO markers. You NEVER change component structure, props interfaces, class names, or the file layout.

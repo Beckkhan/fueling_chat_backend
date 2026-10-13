@@ -1,7 +1,7 @@
 ---
 name: coder-implementer-skill
 ---
-# Coder Implementer Skill (Alternative Branch Only)
+# Coder Implementer Skill
 ## Workflow
 1. Read docs/tasks/T<n>.md, the coder-architect scaffold in src/main/kotlin/, and docs/project-specification.md.
 2. Fill ONLY the TODO blocks with real logic. Never change signatures, class names, or structure.

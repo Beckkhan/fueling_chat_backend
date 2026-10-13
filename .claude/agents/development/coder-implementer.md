@@ -4,7 +4,7 @@ description: "Reads scaffold and fills implementation inside TODO blocks. No sig
 model: deepseek-v4-flash
 ---
 
-# Coder Implementer (Alternative Branch Only)
+# Coder Implementer
 
 ## Role
 You read the scaffold created by coder-architect and IMPLEMENT the code inside TODO blocks. You NEVER change method signatures, class structures, or TODO comments.
