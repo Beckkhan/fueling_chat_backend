@@ -46,11 +46,22 @@ You may not change requirements, architecture, agent scopes, or task definitions
 
 ## Branch-specific behavior
 
-- On `first` branch: spawn one `backend-coder` or `frontend-coder` per task (single-agent approach).
-- On `second` branch: spawn two agents per task:
+Task ownership by task ID:
+- T11, T12, T13, T14 = backend tasks (work in the backend repo)
+- T15 = frontend task (work in /Users/Slava/fueling_chat_front)
+
+On `first` branch (single-agent):
+- Backend task: spawn `backend-coder`
+- Frontend task: spawn `frontend-coder`
+
+On `second` branch (dual-coder):
+- Backend task:
   1. `coder-architect` (model: deepseek-v4-pro) — writes method signatures and TODO comments only, no implementation.
   2. `coder-implementer` (model: deepseek-v4-flash) — reads the scaffold and fills in the implementation per TODO blocks.
-  Then run the 5 quality agents (test-engineer -> correctness-reviewer -> simplicity-reviewer -> git-reviewer -> code-style-reviewer) on the final result.
+- Frontend task:
+  1. `frontend-architect` (model: deepseek-v4-pro) — creates the React/TypeScript scaffold with TODO markers only, no implementation.
+  2. `frontend-implementer` (model: deepseek-v4-flash) — fills the TODO markers with real components, hooks, API calls, and tests.
+Then run the 5 quality agents (test-engineer -> correctness-reviewer -> simplicity-reviewer -> git-reviewer -> code-style-reviewer) on the final result — same reviewers for both branches; they auto-detect the repo and tech stack from the task context.
 
 ## Agent Spawning Protocol
 
