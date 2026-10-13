@@ -36,6 +36,18 @@ Detailed per-agent token tracking for cost analysis.
 | T14 | first | simplicity-reviewer | deepseek-flash | 114709 | 0 | 2092416 | 15288 | 107307 |
 | T14 | first | git-reviewer | deepseek-flash | 94886 | 0 | 1044352 | 9286 | 58486 |
 | T14 | first | code-style-reviewer | deepseek-flash | 174313 | 0 | 2994560 | 23220 | 141907 |
+| T15 | first | frontend-coder | deepseek-v4-pro[1m] | 131028 | 0 | 2711168 | 16400 | 238347 |
+| T15 | first | test-engineer | deepseek-flash | 81653 | 0 | 4758784 | 24133 | 255556 |
+| T15 | first | correctness-reviewer | deepseek-flash | 116130 | 0 | 3473024 | 23663 | 195195 |
+| T15 | first | simplicity-reviewer | deepseek-flash | 71641 | 0 | 1848064 | 14489 | 116523 |
+| T15 | first | git-reviewer | deepseek-flash | 36072 | 0 | 658432 | 7410 | 157497 |
+| T15 | first | code-style-reviewer | deepseek-flash | 62373 | 0 | 2532608 | 11772 | 117190 |
+| T15 | first | frontend-coder (fix) | deepseek-v4-pro[1m] | 3191 | 0 | 794240 | 1728 | 47046 |
+| T15 | first | test-engineer (r2) | deepseek-flash | 34014 | 0 | 1001216 | 5588 | 68104 |
+| T15 | first | correctness-reviewer (r2) | deepseek-flash | 51803 | 0 | 859904 | 8168 | 67498 |
+| T15 | first | simplicity-reviewer (r2) | deepseek-flash | 54792 | 0 | 1026304 | 7376 | 67787 |
+| T15 | first | git-reviewer (r2) | deepseek-flash | 26837 | 0 | 932992 | 8849 | 88578 |
+| T15 | first | code-style-reviewer (r2) | deepseek-flash | 30508 | 0 | 577920 | 4121 | 47749 |
 
 Notes:
 - Tokens extracted from Agent() completion notifications (subagent_tokens breakdown)
