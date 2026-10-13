@@ -10,10 +10,14 @@ import com.fuelingchat.infra.db.dbModule
 import com.fuelingchat.infra.llm.clientModule
 import com.fuelingchat.infra.logging.LoggerProvider
 import com.fuelingchat.infra.logging.loggingModule
+import com.fuelingchat.routes.chatRoutes
+import com.fuelingchat.routes.configureChatStatusPages
+import com.fuelingchat.service.ChatService
 import com.fuelingchat.service.serviceModule
 import com.fuelingchat.service.tool.GetFuelingInfoTool
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import io.ktor.server.routing.routing
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.Database
 import org.kodein.di.DI
@@ -40,7 +44,18 @@ class AppModule(
             logger.error { "boot failed: $failure" }
             return 1
         }
-        runBlocking { embeddedServer(Netty, port = 8080, host = "0.0.0.0") {}.start(wait = true) }
+        runBlocking {
+            embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
+                // TODO (T11): chatRoutes installs its own ContentNegotiation; StatusPages is
+                //             application-level and comes from configureChatStatusPages().
+                //             ChatService resolves lazily per request here, so boot never touches
+                //             the T11 placeholder binding (T12 replaces it).
+                configureChatStatusPages()
+                routing {
+                    chatRoutes(chatServiceProvider = { di.direct.instance<ChatService>() })
+                }
+            }.start(wait = true)
+        }
         return 0
     }
 

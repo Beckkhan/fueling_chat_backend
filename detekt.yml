@@ -9,6 +9,10 @@ config:
 style:
   MagicNumber:
     active: false
+  # Scaffold convention (dual-coder pipeline): TODO comments are the handoff contract
+  # between architect and implementer. FIXME/STOPSHIP stay forbidden.
+  ForbiddenComment:
+    allowedPatterns: 'TODO:'
 
 naming:
   ConstructorParameterNaming:

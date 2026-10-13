@@ -10,4 +10,6 @@ import org.kodein.di.singleton
 val serviceModule =
     DI.Module("service") {
         bind<GetFuelingInfoTool>() with singleton { GetFuelingInfoTool(ToolDescriptorLoader().load(), instance()) }
+        // TODO: placeholder binding — T12 replaces this with the real ChatService construction
+        bind<ChatService>() with singleton { error("ChatService lands with T12") }
     }

@@ -25,6 +25,7 @@ application {
 dependencies {
     implementation("io.ktor:ktor-server-netty-jvm:3.3.3")
     implementation("io.ktor:ktor-server-content-negotiation-jvm:3.3.3")
+    implementation("io.ktor:ktor-server-status-pages-jvm:3.3.3")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:3.3.3")
     implementation("org.kodein.di:kodein-di-jvm:7.33.0")
     implementation("ai.koog:koog-agents-jvm:1.3.0")
@@ -40,6 +41,7 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.14.4")
     testImplementation("io.mockk:mockk:1.14.11")
+    testImplementation("io.ktor:ktor-server-test-host-jvm:3.3.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
