@@ -2,7 +2,6 @@ package com.fuelingchat.routes
 
 import com.fuelingchat.service.ChatFailure
 import com.fuelingchat.service.ChatService
-import com.fuelingchat.service.ChatTurn
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
