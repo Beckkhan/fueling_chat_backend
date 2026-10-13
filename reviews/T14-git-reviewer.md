@@ -1,0 +1,27 @@
+# T14 — Git Review
+
+**Verdict:** PASS
+**Timestamp:** 2026-10-13T18:24:07Z
+
+## Scope
+
+Commit `143066f` ("T14: Koog LlmClient 'remote' (DeepSeek)", 6 files, +341/−1) on branch `second`, reviewed for commit-message format, one-commit-per-task atomicity, `.env`/secret hygiene and `.gitignore` completeness. Gates 1–3 are PASS (`reviews/T14-test-engineer.md`, `reviews/T14-correctness-reviewer.md`, `reviews/T14-simplicity-reviewer.md`). Conventions checked against `docs/tasks/T14.md`, `docs/tasks/INDEX.md` and the T11–T13 branch precedent (`ac759f7`/`c92e9d3`, `f032e39`/`d0a96a4`, `1c678db`/`12c6255`).
+
+## Verification performed
+
+- **One commit per task.** `git log --grep='^T14' second` → exactly `143066f`; its parent is `12c6255` (T13 mark-done), linear, no merge, HEAD of `second`. Two further T14-named commits (`6aae421`, `e7178ee`) exist only on branch `first` (verified not ancestors of `second`) — the separate single-agent implementation, outside this task's scope, the same ruling the T13 gate made. The mark-done commit (reviews + ledger + INDEX row + `**Status:**` flip) is correctly still pending per precedent. No dangling T14 work in the working tree: `git status` shows only modified `metrics/cto-ledger.md` (CTO bookkeeping) and the untracked gate 1–3 review files destined for the mark-done commit.
+- **Commit message format.** Subject `T14: Koog LlmClient 'remote' (DeepSeek)` matches `T<n>: <title>` exactly and matches the task title in `docs/tasks/T14.md`. Body is a real description: the shared `KoogChatRunner` delegation, the D-16 wording deviations (settings-carried base URL instead of `(apiKey, baseUrl)`; `addClient` since `PromptExecutorBuilder` has no `deepSeek(...)`), and what the MockEngine tests prove (Bearer auth, configured model id, `chat/completions`, the fake-tool loop). Ends with the required `Co-Authored-By: Claude Code <noreply@anthropic.com>` trailer; `git show --check` reports no whitespace errors.
+- **Atomicity of the 6 files.** One logical change, no unrelated edits, no formatting churn, no build outputs. Composition: `DeepSeekLlmClient.kt` (new) + its `MockEngine` test, the `ClientModule` `remote` binding swap that removes the last `LlmClient` stub, the `DiSmokeTest` extension (an explicit acceptance criterion), the one DeepSeek-client dependency the implementation requires (with an in-file comment documenting the forced `1.3.0-beta` deviation, corroborated by the correctness review's D-16 adjudication), and the 4-line task-file STATUS tail. `docs/tasks/INDEX.md` is untouched — correct, only the CTO updates it. `metrics/cto-ledger.md` and the reviews are correctly excluded from the commit.
+- **Task-file convention matches precedent.** `docs/tasks/T14.md` gains only `STATUS: SCAFFOLD_DONE` + `STATUS: DONE` (`+4` lines) — byte-identical in shape to `1c678db` (T13), `f032e39` (T12) and `ac759f7` (T11); the `**Status:** `todo`` header is correctly left for the mark-done commit to flip, exactly as `c92e9d3`/`d0a96a4`/`12c6255` did.
+- **`.env` never committed.** `git log --all --diff-filter=A --name-only` across all refs finds exactly one env path ever added: the tracked `.env.example`. The live `.env` on disk is untracked and ignored (`git check-ignore -v .env` → `.gitignore:2:.env`); `.env.stage-backup` is ignored via `.gitignore:3`.
+- **No secrets in the commit.** Diff scan for key material: only test fixtures (`DB_PASSWORD=test-db`, `API_KEY = "test-deepseek-key"`) inside the new MockEngine test, and `<PLACEHOLDER>` values in the already-tracked `.env.example`. No real credentials, no private keys, no high-entropy tokens.
+- **`.gitignore` coverage.** Tracked rules cover secrets (`.env`, `.env.stage-backup`) and build/OS/IDE artifacts (`build/`, `data/`, `.gradle/`, `.DS_Store`, `.idea/`). One longstanding gap → finding 1.
+
+## Findings (non-blocking)
+
+1. **`*.swp`/`*.swo` still missing from `.gitignore` — second consecutive gate flagging it (T13 finding 1).** Re-judged for this gate: **still non-blocking, but the recommendation is now overdue.** `.env.example.swp` (untracked, live vim swap) is confirmed NOT in `143066f` (the commit lists 6 files, no swap entry) and NOT ignored — `git check-ignore` matches only `.env` and `.env.stage-backup`. A content scan of the swap finds no secret-like material today (consistent with it being the swap of placeholder-only `.env.example`). The substantive risk stands: a swap of the real `.env` (`.env.swp`) would hold live credentials and would slip past every current rule. Recommend adding `*.swp` and `*.swo` to the OS/IDE section at the next commit touching repo hygiene (the pending mark-done commit or a small harness commit) so the finding does not recur at T15. Not a defect of `143066f` — nothing is committed, no committed artifact depends on it, and deleting a live swap file under a running editor mid-session would be worse than leaving it.
+2. **Working-tree bookkeeping is as expected mid-pipeline.** `git status` shows only: modified `metrics/cto-ledger.md` (CTO bookkeeping, T14 rows appended, lands with the mark-done commit per the `d0a96a4` precedent), three untracked `reviews/T14-*.md` (gates 1–3), and the swap file of finding 1. No stray build artifacts, no `data/`, no stash, no other untracked files.
+
+## Verdict
+
+`T14-git-reviewer: PASS | verified: ok` — commit format, atomicity and secret hygiene conform to the branch precedent; the only noted gap (`*.swp` in `.gitignore`) is untracked-surface hardening, non-blocking as at T13 but now recommended for action at the next repo-hygiene commit.
