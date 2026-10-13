@@ -10,6 +10,8 @@ import com.fuelingchat.infra.db.dbModule
 import com.fuelingchat.infra.llm.clientModule
 import com.fuelingchat.infra.logging.LoggerProvider
 import com.fuelingchat.infra.logging.loggingModule
+import com.fuelingchat.routes.chatRoutes
+import com.fuelingchat.service.ChatService
 import com.fuelingchat.service.serviceModule
 import com.fuelingchat.service.tool.GetFuelingInfoTool
 import io.ktor.server.engine.embeddedServer
@@ -40,7 +42,13 @@ class AppModule(
             logger.error { "boot failed: $failure" }
             return 1
         }
-        runBlocking { embeddedServer(Netty, port = 8080, host = "0.0.0.0") {}.start(wait = true) }
+        runBlocking {
+            embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
+                // T11 wiring (integrator-owned): lazy resolution — the placeholder ChatService
+                // binding must not fail boot; T12 keeps this wiring unchanged.
+                chatRoutes { di.direct.instance<ChatService>() }
+            }.start(wait = true)
+        }
         return 0
     }
 
