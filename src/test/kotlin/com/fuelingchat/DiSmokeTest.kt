@@ -2,6 +2,7 @@ package com.fuelingchat
 
 import com.fuelingchat.config.AppConfig
 import com.fuelingchat.infra.db.DbPools
+import com.fuelingchat.infra.llm.LlmClient
 import com.fuelingchat.infra.logging.LoggerProvider
 import com.fuelingchat.service.tool.GetFuelingInfoTool
 import org.jetbrains.exposed.sql.Database
@@ -28,6 +29,8 @@ class DiSmokeTest {
         assertNotNull(di.direct.instance<Database>(tag = "vendors"))
         assertNotNull(di.direct.instance<LoggerProvider>())
         assertNotNull(di.direct.instance<GetFuelingInfoTool>())
+        assertNotNull(di.direct.instance<LlmClient>(tag = "local"))
+        assertNotNull(di.direct.instance<LlmClient>(tag = "remote"))
 
         di.direct.instance<DbPools>().close()
     }

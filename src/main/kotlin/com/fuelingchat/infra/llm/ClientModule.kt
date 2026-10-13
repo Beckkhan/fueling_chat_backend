@@ -12,7 +12,7 @@ import org.kodein.di.singleton
 val clientModule =
     DI.Module("client") {
         bind<LlmClient>(tag = "local") with singleton { OllamaLlmClient(instance(), koogHttpClientFactory()) }
-        bind<LlmClient>(tag = "remote") with singleton { error("LlmClient 'remote' lands with T14 (DeepSeek)") }
+        bind<LlmClient>(tag = "remote") with singleton { DeepSeekLlmClient(instance(), koogHttpClientFactory()) }
     }
 
 private fun koogHttpClientFactory(): KoogHttpClient.Factory =

@@ -1,9 +1,6 @@
 package com.fuelingchat.infra.llm
 
-import ai.koog.agents.core.tools.SimpleTool
-import ai.koog.agents.core.tools.annotations.LLMDescription
 import ai.koog.http.client.ktor.KtorKoogHttpClient
-import ai.koog.serialization.typeToken
 import com.fuelingchat.config.AppConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
@@ -15,8 +12,6 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.Url
 import io.ktor.http.content.OutgoingContent
 import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.addJsonObject
@@ -246,26 +241,5 @@ class OllamaLlmClientTest {
         private const val TEST_MODEL = "test-ollama-model"
         private const val FINAL_ANSWER = "the final answer"
         private const val SYSTEM_PROMPT = "Answer fueling questions only via the get_fueling_info tool."
-    }
-}
-
-@Serializable
-data class FakeEchoArgs(
-    @property:LLMDescription("The id to echo.")
-    @SerialName("echo_id")
-    val echoId: String,
-)
-
-class FakeEchoTool :
-    SimpleTool<FakeEchoArgs>(
-        argsType = typeToken<FakeEchoArgs>(),
-        name = NAME,
-        description = "Fake tool returning fixed text.",
-    ) {
-    override suspend fun execute(args: FakeEchoArgs): String = FIXED_RESULT
-
-    companion object {
-        const val NAME = "fake_echo"
-        const val FIXED_RESULT = "fake tool fixed text"
     }
 }
