@@ -7,7 +7,7 @@ Inputs: `docs/spec-source.md`, `docs/ddl-source.md` (informational, never execut
 
 ## 1. Purpose and scope
 
-Production-grade fullstack chat (React + Kotlin/Ktor) with AI orchestration over fueling data from four Postgres databases. The user asks about a fueling by ID; the backend collects data from all four DBs through a tool and returns an LLM summary. The project is implemented **twice, in parallel branches** (`usual` vs `alternative`), with time/token/quality metrics compared at the end.
+Production-grade fullstack chat (React + Kotlin/Ktor) with AI orchestration over fueling data from four Postgres databases. The user asks about a fueling by ID; the backend collects data from all four DBs through a tool and returns an LLM summary. The project is implemented **twice, in parallel branches** (`first` vs `second`), with time/token/quality metrics compared at the end.
 
 This design covers: layer architecture, Kodein modules, the Koog tool chain, provider routing, dialog history, frontend structure, local dev environment, branch strategy, review/metrics artifacts, and README plans. Hard gate: no implementation, scaffolding or specification writing until this design is approved (done) — the specification phase follows.
 
@@ -142,19 +142,19 @@ Stage Postgres (`postgres.stage.turboapp.ru:25432`) is unreachable today; local 
 
 ```
 main ── common foundation (scaffold, DI, schema, base contracts)
-    ├── usual        (backend + frontend)
-    └── alternative  (backend + frontend)
+    ├── first        (backend + frontend)
+    └── second       (backend + frontend)
 ```
 
-Both repos follow the same shape: `main` accumulates the design doc and the common foundation (committed in the foundation phase); `usual` and `alternative` fork from the foundation commit — never from each other — and develop backend + frontend in parallel. Foundation work lands on `main` first, so both branches share an identical starting point.
+Both repos follow the same shape: `main` accumulates the design doc and the common foundation (committed in the foundation phase); `first` and `second` fork from the foundation commit — never from each other — and develop backend + frontend in parallel. Foundation work lands on `main` first, so both branches share an identical starting point.
 
 ---
 
 ## 8. Review and metrics artifacts
 
-**Review gates** (4 sequential per task: correctness → simplicity → git → code-style). Each reviewer writes `reviews/T<n>-<reviewer>.md` (e.g. `T1-correctness-reviewer.md`). The `reviews/` directory exists in **both repos**; branch scoping is provided by git — each branch's review files are committed on that branch, so `usual`'s and `alternative`'s verdicts never mix.
+**Review gates** (4 sequential per task: correctness → simplicity → git → code-style). Each reviewer writes `reviews/T<n>-<reviewer>.md` (e.g. `T1-correctness-reviewer.md`). The `reviews/` directory exists in **both repos**; branch scoping is provided by git — each branch's review files are committed on that branch, so `first`'s and `second`'s verdicts never mix.
 
-**Metrics protocol (D-5):** per repo, per branch, one CTO ledger — `metrics/usual.md`, `metrics/alternative.md`. Each task row: start timestamp, token delta (cost counter read before/after the agent run in the CTO session), handback count (incremented by the CTO on each return-to-agent), `verified: ok` timestamp. Findings are **not** hand-logged: the measurement phase counts them by parsing `reviews/*.md`. After both branches finish, the measurement phase aggregates ledgers + review files into **`comparison-report.md` in the backend repo root** (the docs hub): wall-clock and token tables for backend/frontend × usual/alternative, handback counts, findings per gate, and the spec's required conclusions (cost/quality verdicts, per-gate comparison, when to use which approach).
+**Metrics protocol (D-5):** per repo, per branch, one CTO ledger — `metrics/first.md`, `metrics/second.md`. Each task row: start timestamp, token delta (cost counter read before/after the agent run in the CTO session), handback count (incremented by the CTO on each return-to-agent), `verified: ok` timestamp. Findings are **not** hand-logged: the measurement phase counts them by parsing `reviews/*.md`. After both branches finish, the measurement phase aggregates ledgers + review files into **`comparison-report.md` in the backend repo root** (the docs hub): wall-clock and token tables for backend/frontend × first/second, handback counts, findings per gate, and the spec's required conclusions (cost/quality verdicts, per-gate comparison, when to use which approach).
 
 ---
 
@@ -162,7 +162,7 @@ Both repos follow the same shape: `main` accumulates the design doc and the comm
 
 Content contract fixed in the **specification phase**, files created in the **foundation phase**, refreshed at the **end of each implementation branch**.
 
-- **Backend `README.md`:** purpose (fueling chat + the usual/alternative experiment), stack, prerequisites (JDK, Docker, optionally Ollama for the local provider), setup flow (`.env` from `.env.example`, `docker compose up`, schema + seeds, `./gradlew run`), `POST /chat` contract, provider configuration, dialog-history semantics (journal cleared on restart), read-only guarantees, branch/artifact layout (reviews, metrics, comparison-report).
+- **Backend `README.md`:** purpose (fueling chat + the first/second experiment), stack, prerequisites (JDK, Docker, optionally Ollama for the local provider), setup flow (`.env` from `.env.example`, `docker compose up`, schema + seeds, `./gradlew run`), `POST /chat` contract, provider configuration, dialog-history semantics (journal cleared on restart), read-only guarantees, branch/artifact layout (reviews, metrics, comparison-report).
 - **Frontend `README.md`:** purpose, stack (Vite/React 19/TS strict/Tailwind v4/Prettier/ESLint/Vitest, pnpm), `pnpm install` / `dev` / `build` / `test` / `lint`, env contract — `VITE_API_URL` (backend base URL, default `http://localhost:8080`), added to the tracked `.env.example`.
 
 ---

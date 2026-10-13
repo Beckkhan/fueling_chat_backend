@@ -1,6 +1,7 @@
 ---
 name: coder-architect
-description: "Writes ONLY method signatures and TODO comments. No implementation. Uses deepseek-v4-pro model. For alternative branch only."
+description: "Writes ONLY method signatures and TODO comments. No implementation. Uses deepseek-v4-pro model. For second branch only."
+model: deepseek-v4-pro[1m]
 ---
 
 # Coder Architect (Alternative Branch Only)

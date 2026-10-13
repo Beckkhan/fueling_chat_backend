@@ -1,6 +1,6 @@
 # Task Index — docs/tasks/
 
-Phase 3 of 6: DECOMPOSITION. Foundation backlog for `main` — 10 atomic tasks (T01–T10, all `done`) plus the `usual`-branch feature backlog (T11–T15, decomposed in this phase; all `todo`, implementation not started), each small enough to be implemented, reviewed (4 gates, design §8) and merged independently in one commit. Specification frozen: `docs/project-specification.md`; tasks reference contracts by ID only.
+Phase 3 of 6: DECOMPOSITION. Foundation backlog for `main` — 10 atomic tasks (T01–T10, all `done`) plus the `first`-branch feature backlog (T11–T15, decomposed in this phase; all `todo`, implementation not started), each small enough to be implemented, reviewed (4 gates, design §8) and merged independently in one commit. Specification frozen: `docs/project-specification.md`; tasks reference contracts by ID only.
 
 ## Backlog
 
@@ -41,22 +41,22 @@ Phase 3 of 6: DECOMPOSITION. Foundation backlog for `main` — 10 atomic tasks (
 | CONTRACT-HISTORY-001 | D-1, D-11 — write-through `.jsonl` journal + in-memory cache as the only read source; both cleared on restart |
 | CONTRACT-LLM-001 | spec §3 pinned `LlmClient` seam + D-8, D-16 — the `local` (Ollama) binding; tools passed in from the service, never empty |
 | CONTRACT-LLM-002 | spec §3 pinned `LlmClient` seam + D-8, D-16 — the `remote` (DeepSeek) binding; same tool-set contract as `local` |
-| CONTRACT-UI-002 | spec §2 (request/error bodies) + design §5 (muted error bubble) + D-13 — frontend integration behavior on `usual` |
+| CONTRACT-UI-002 | spec §2 (request/error bodies) + design §5 (muted error bubble) + D-13 — frontend integration behavior on `first` |
 
-`CONTRACT-SERVICE-001`, `CONTRACT-HISTORY-001`, `CONTRACT-LLM-001`, `CONTRACT-LLM-002` and `CONTRACT-UI-002` are introduced by this decomposition as task-level IDs mapping onto the frozen spec content above; `docs/project-specification.md` itself is unchanged. For the `usual`-branch tasks, `CONTRACT-API-001` covers the whole endpoint (request **and** response of spec §2).
+`CONTRACT-SERVICE-001`, `CONTRACT-HISTORY-001`, `CONTRACT-LLM-001`, `CONTRACT-LLM-002` and `CONTRACT-UI-002` are introduced by this decomposition as task-level IDs mapping onto the frozen spec content above; `docs/project-specification.md` itself is unchanged. For the `first`-branch tasks, `CONTRACT-API-001` covers the whole endpoint (request **and** response of spec §2).
 
-- **`usual`-branch execution order** (dependency order): `T11 → T12 → T13 → T14 → T15`. T13 and T14 both depend only on T12 and are independent of each other. T15 depends on T11 and can start once the route lands, but end-to-end behavior needs T12–T14, so it is dispatched last in practice.
+- **`first`-branch execution order** (dependency order): `T11 → T12 → T13 → T14 → T15`. T13 and T14 both depend only on T12 and are independent of each other. T15 depends on T11 and can start once the route lands, but end-to-end behavior needs T12–T14, so it is dispatched last in practice.
 - **Seam note:** T11 lands first and therefore declares the `ChatService` seam it consumes (interface + `ChatTurn`/`ChatFailure` types + a placeholder DI binding); T12 replaces the placeholder. The `LlmClient` named bindings remain `error()` placeholders from the foundation until T13/T14 — the app boots and tests run without resolving them.
 - **Koog surface:** T13/T14 verify the exact Koog 1.3.0 client surface against the pinned jars at implementation time (D-16); any wording deviation from D-16 is documented in the correctness review.
 - Tasks land in dependency order, one commit each, merged independently. Backend implementation commits are `T<n>: <title>` in this repo; T15's implementation + reviews commit lands in the frontend repo, followed by a `T15: mark … done` status commit here.
 - Review gates per task, in order (design §8): correctness → simplicity → git → code-style; each reviewer writes `reviews/T<n>-<reviewer>.md` in the repo that owns the task's code (T11–T14 backend, T15 frontend).
-- Metrics (spec §7): the CTO appends one row per task to `metrics/usual.md` / `metrics/alternative.md` in both repos; findings are parsed from the review files, never hand-logged.
-- Hard gate: `usual`-branch scope is the single-agent implementation only — no `alternative`-branch or dual-coder work.
+- Metrics (spec §7): the CTO appends one row per task to `metrics/first.md` / `metrics/second.md` in both repos; findings are parsed from the review files, never hand-logged.
+- Hard gate: `first`-branch scope is the single-agent implementation only — no `second`-branch or dual-coder work.
 
 ## Not yet decomposed (planned)
 
-Remaining for later phases of the `usual` branch:
+Remaining for later phases of the `first` branch:
 
 - **Backend:** `README.md` refresh per spec §8 (created in the foundation, refreshed at the end of the implementation branch).
 - **Frontend:** `README.md` refresh per spec §8 (same rule).
-- **Both repos:** the `alternative` branch implementation (design §7), metrics ledgers (`metrics/usual.md` / `metrics/alternative.md` per repo), the measurement phase and `comparison-report.md` (backend repo root, spec §7).
+- **Both repos:** the `second` branch implementation (design §7), metrics ledgers (`metrics/first.md` / `metrics/second.md` per repo), the measurement phase and `comparison-report.md` (backend repo root, spec §7).
