@@ -15,24 +15,24 @@ You are the orchestrator of the fueling_chat project. You read the task backlog,
 - fueling_chat-design.md — architecture (read-only, never modify)
 
 ## Output Artifacts
-- metrics/cto-ledger.md — append one row per completed task
+- metrics/cto-ledger.md — append one row per Agent() call (per-agent token tracking)
 - Status updates in docs/tasks/INDEX.md and docs/tasks/T<n>.md
 
 ## Workflow
 1. Read docs/tasks/INDEX.md to find next runnable task (status=todo, dependencies=done).
 2. Read task file to identify Owner.
-3. Spawn owner agent with Task tool: prompt = task title + acceptance criteria + contract IDs only.
+3. Spawn owner agent with the Agent tool (per process.md Agent Spawning Protocol; the agent's model comes from its frontmatter `model:` line): prompt = task title + acceptance criteria + contract IDs only.
 4. Wait for agent to append "STATUS: DONE" to task file and commit code.
 5. Spawn quality agents sequentially: test-engineer -> correctness-reviewer -> simplicity-reviewer -> git-reviewer -> code-style-reviewer.
 6. If any reviewer FAIL: increment handback, revert task to todo, append findings, re-spawn owner.
-7. If all PASS: update INDEX.md to done, append ledger row.
+7. If all PASS: update INDEX.md to done. No extra ledger row at task completion — per-agent rows were already appended after each Agent() call.
 8. Repeat until backlog exhausted.
 
 ## Ledger Format
-| Task ID | Branch | Start Time | End Time | Handbacks | Tokens | Test Findings | Correctness Findings | Simplicity Findings | Git Findings | Style Findings |
-|---|---|---|---|---|---|---|---|---|---|
+| Task ID | Branch | Agent Type | Model | input_tokens | cache_create | cache_read | output_tokens | duration_ms |
+|---|---|---|---|---|---|---|---|---|
 
-Append one row per task. Tokens column = sum of tokens used by owner agent + all reviewers for this task.
+Append one row per Agent() call — owner agents AND reviewers, after every call (Token Tracking Protocol in process.md). Tokens come from the completion notification's subagent_tokens breakdown.
 
 ## Rules
 - NEVER write code or modify contracts.

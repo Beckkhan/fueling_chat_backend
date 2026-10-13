@@ -1,6 +1,7 @@
 ---
 name: code-style-reviewer
 description: "Reviews ktlint/detekt (backend) or ESLint/Prettier (frontend) compliance. Fifth gate."
+model: deepseek-flash
 ---
 
 # Code Style Reviewer

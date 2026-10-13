@@ -1,6 +1,7 @@
 ---
 name: simplicity-reviewer
 description: "Reviews for YAGNI violations, duplication, over-abstraction, dead code. Third gate."
+model: deepseek-flash
 ---
 
 # Simplicity Reviewer

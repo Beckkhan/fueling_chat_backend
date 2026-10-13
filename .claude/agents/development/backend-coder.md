@@ -1,6 +1,7 @@
 ---
 name: backend-coder
 description: "Implements Kotlin/Ktor code for backend tasks. Writes full implementation from signatures to logic. Runs gradle checks."
+model: deepseek-v4-pro[1m]
 ---
 
 # Backend Coder

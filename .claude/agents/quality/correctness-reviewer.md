@@ -1,6 +1,7 @@
 ---
 name: correctness-reviewer
 description: "Reviews code for logic errors, edge cases, contract violations, read-only DB guarantees, secret masking. Second gate."
+model: deepseek-flash
 ---
 
 # Correctness Reviewer

@@ -19,13 +19,13 @@ You may not change requirements, architecture, agent scopes, or task definitions
    - a task id (e.g. `T11`) — run only that task
 3. For each runnable task:
    a. Read the task file `docs/tasks/T<n>.md` to identify the `Owner` (e.g., `backend-coder`, `frontend-coder`).
-   b. **Spawn the owning agent as a subagent** with the Task tool:
+   b. **Spawn the owning agent as a subagent** with the Agent tool:
       - subagent type = the agent name (e.g., `backend-coder` from `.claude/agents/development/backend-coder.md`)
       - prompt = the task title, acceptance criteria, and contract IDs from the task file's `contracts:` field
       - the agent's own definition (`.claude/agents/<team>/<agent>.md`) loads automatically as its instructions
       - spawn template (token-efficient): task title + acceptance criteria + contract IDs only — NO restated definition content, NO verbatim contract text
    c. Wait for the agent to complete: it must append "STATUS: DONE" to `docs/tasks/T<n>.md` and commit its code.
-   d. Record start timestamp in `metrics/cto-ledger.md`.
+   d. Append the agent's row to `metrics/cto-ledger.md` per the Token Tracking Protocol.
 4. After the owner agent finishes, spawn the quality agents sequentially on the task's diff:
    Spawn quality agents sequentially: test-engineer -> correctness-reviewer -> simplicity-reviewer -> git-reviewer -> code-style-reviewer.
    - `test-engineer` → writes `reviews/T<n>-test-engineer.md`
@@ -35,23 +35,54 @@ You may not change requirements, architecture, agent scopes, or task definitions
    - on PASS: `code-style-reviewer` → writes `reviews/T<n>-code-style-reviewer.md`
    Each reviewer reads the code and task file, then writes its verdict file.
 5. If ANY reviewer verdict is "FAIL":
-   - Increment handback count in `metrics/cto-ledger.md`.
+   - Increment the task's handback count (reported in the handoff summary; the ledger holds per-agent rows only).
    - Revert task status to "todo" in `docs/tasks/T<n>.md` and append reviewer findings.
    - Re-spawn the owner agent with the findings list (do NOT recreate the agent — resume with context).
    - Loop back to step 3c.
 6. If ALL reviewers "PASS":
    - Update task status to "done" in `docs/tasks/INDEX.md`.
-   - Record end timestamp, handback count (0), and findings count per gate in `metrics/cto-ledger.md`.
-   - Format: `| T<n> | <branch> | <start> | <end> | <handbacks> | <tokens> | <test findings> | <correctness findings> | <simplicity findings> | <git findings> | <style findings> |`
+   - No extra ledger row at task completion: per-agent rows were already appended per the Token Tracking Protocol. Handback count and findings per gate are derived from the review files at the measurement phase (spec §7, D-5).
 7. Repeat until no runnable tasks remain.
 
 ## Branch-specific behavior
 
-- On `usual` branch: spawn one `backend-coder` or `frontend-coder` per task (single-agent approach).
-- On `alternative` branch: spawn two agents per task:
+- On `first` branch: spawn one `backend-coder` or `frontend-coder` per task (single-agent approach).
+- On `second` branch: spawn two agents per task:
   1. `coder-architect` (model: deepseek-v4-pro) — writes method signatures and TODO comments only, no implementation.
   2. `coder-implementer` (model: deepseek-v4-flash) — reads the scaffold and fills in the implementation per TODO blocks.
   Then run the 5 quality agents (test-engineer -> correctness-reviewer -> simplicity-reviewer -> git-reviewer -> code-style-reviewer) on the final result.
+
+## Agent Spawning Protocol
+
+### Correct Agent() Syntax
+
+Use the Agent tool with explicit parameters. The `model:` in agent frontmatter sets the default model.
+
+Example for second branch (dual-coder):
+
+```
+Agent(
+  description="Scaffold T11 chat route",
+  prompt="[paste T11.md content + acceptance criteria + contract IDs]",
+  subagent_type="coder-architect"
+)
+```
+
+→ Runs on deepseek-v4-pro[1m] (from frontmatter)
+
+Example for first branch (single-agent):
+
+```
+Agent(
+  description="Implement T11 chat route",
+  prompt="[paste T11.md content + acceptance criteria + contract IDs]",
+  subagent_type="backend-coder"
+)
+```
+
+→ Runs on deepseek-v4-pro[1m] (from frontmatter)
+
+DO NOT simulate agents by changing roles within this session. Each Agent() call must spawn a real sub-agent with its own token budget.
 
 ## Handoff
 
@@ -60,12 +91,34 @@ When the backlog is exhausted or blocked, summarize:
 - Tasks blocked (with reasons)
 - Any specification gaps escalated to the Specification team
 
+## Token Tracking Protocol
+
+After each Agent() call completes, extract these fields from the completion notification:
+- subagent_tokens.input_tokens
+- subagent_tokens.cache_creation_input_tokens
+- subagent_tokens.cache_read_input_tokens
+- subagent_tokens.output_tokens
+- duration_ms
+- The model used (visible in agent transcript)
+
+Immediately append a row to metrics/cto-ledger.md with:
+- Task ID (e.g., T11)
+- Branch (first/second)
+- Agent type (coder-architect, coder-implementer, test-engineer, etc.)
+- Model (deepseek-v4-pro[1m] or deepseek-flash)
+- All 4 token counts
+- duration_ms
+
+Do this after EVERY Agent() call, not just at task completion.
+
 ## Metrics ledger format
 
-`metrics/cto-ledger.md` must contain:
-| Task ID | Branch | Start Time | End Time | Handbacks | Tokens | Test Findings | Correctness Findings | Simplicity Findings | Git Findings | Style Findings |
+`metrics/cto-ledger.md` contains one row per Agent() call:
 
-Append one row per completed task.
+| Task ID | Branch | Agent Type | Model | input_tokens | cache_create | cache_read | output_tokens | duration_ms |
+|---|---|---|---|---|---|---|---|---|
+
+Rows are appended per the Token Tracking Protocol — after EVERY Agent() call, not just at task completion. costUSD is unreliable (hasUnknownModelCost: true for DeepSeek models) and is not recorded.
 
 ## Hard-gate reminders
 

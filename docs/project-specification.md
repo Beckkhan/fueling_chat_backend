@@ -9,7 +9,7 @@ This document freezes the API/tool contracts, the decision log, and all seven sp
 
 ## 1. Scope, inputs, UI source of truth
 
-Production-grade fullstack chat (React + Kotlin/Ktor) with AI orchestration over fueling data from four Postgres databases. Implemented twice in parallel branches (`usual` vs `alternative`) with time/token/quality metrics compared at the end.
+Production-grade fullstack chat (React + Kotlin/Ktor) with AI orchestration over fueling data from four Postgres databases. Implemented twice in parallel branches (`first` vs `second`) with time/token/quality metrics compared at the end.
 
 **Inputs:**
 
@@ -347,10 +347,10 @@ All gaps from design §11, resolved and frozen in this phase:
 
 ## 7. Metrics protocol
 
-One CTO ledger per repo per branch (D-5): `metrics/usual.md` and `metrics/alternative.md` in **both** repos; branch scoping by git. Each file contains exactly one table:
+One CTO ledger per repo per branch (D-5): `metrics/first.md` and `metrics/second.md` in **both** repos; branch scoping by git. Each file contains exactly one table:
 
 ```markdown
-# Metrics — usual
+# Metrics — first
 
 | Task ID | Start Time | End Time | Token Delta | Handbacks | Findings Count |
 |---|---|---|---|---|---|
@@ -367,7 +367,7 @@ Column rules:
 - **Handbacks** — number of returns to the agent with notes; CTO increments on each handback, `0` at dispatch.
 - **Findings Count** — **not hand-logged**: filled during the measurement phase by parsing `reviews/T<n>-<reviewer>.md` (D-5). Left empty while the task runs.
 
-The measurement phase aggregates both repos' ledgers + review files into **`comparison-report.md` in the backend repo root** (the docs hub): wall-clock and token tables for backend/frontend × usual/alternative, handback counts, findings per gate, and the spec's required conclusions (cost/quality verdicts, per-gate comparison, when to use which approach).
+The measurement phase aggregates both repos' ledgers + review files into **`comparison-report.md` in the backend repo root** (the docs hub): wall-clock and token tables for backend/frontend × first/second, handback counts, findings per gate, and the spec's required conclusions (cost/quality verdicts, per-gate comparison, when to use which approach).
 
 ---
 
@@ -379,7 +379,7 @@ Exact headings and required content. Files are created in Phase 4 (foundation), 
 
 ```markdown
 # Fueling Chat — Backend
-## Purpose          — fueling chat + the usual/alternative experiment; what the backend does.
+## Purpose          — fueling chat + the first/second experiment; what the backend does.
 ## Stack            — Kotlin, Ktor (netty, content-negotiation, kotlinx-json), Koog 1.3.0 (D-16),
                       Kodein DI, Exposed + HikariCP, kotlinx-serialization, SLF4J + logback, JUnit 5 / MockK.
 ## Prerequisites    — JDK 17+, Docker (for the local DBs), optionally Ollama for the local provider.
@@ -389,7 +389,7 @@ Exact headings and required content. Files are created in Phase 4 (foundation), 
 ## Provider configuration — local (Ollama) / remote (DeepSeek) env keys and defaults.
 ## Dialog history semantics — journal + cache cleared on restart; HISTORY_LIMIT; DIALOG_HISTORY_FILE.
 ## Read-only guarantees — readOnlyMode=always, no DDL/DML from code, DDL-first tool description.
-## Branch and artifact layout — reviews/, metrics/, comparison-report.md; usual/alternative strategy.
+## Branch and artifact layout — reviews/, metrics/, comparison-report.md; first/second strategy.
 ```
 
 ### Frontend `README.md`

@@ -1,6 +1,7 @@
 ---
 name: test-engineer
 description: "Verifies unit and integration tests coverage, isolation, and mocking. First quality gate."
+model: deepseek-flash
 ---
 
 # Test Engineer
