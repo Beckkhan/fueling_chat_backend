@@ -13,6 +13,7 @@ import com.fuelingchat.infra.logging.loggingModule
 import com.fuelingchat.routes.configureChat
 import com.fuelingchat.service.ChatService
 import com.fuelingchat.service.ChatTurn
+import com.fuelingchat.service.DialogHistory
 import com.fuelingchat.service.serviceModule
 import com.fuelingchat.service.tool.GetFuelingInfoTool
 import io.ktor.server.engine.embeddedServer
@@ -22,6 +23,7 @@ import org.jetbrains.exposed.sql.Database
 import org.kodein.di.DI
 import org.kodein.di.direct
 import org.kodein.di.instance
+import java.io.IOException
 import java.nio.file.Path
 
 class AppModule(
@@ -38,7 +40,7 @@ class AppModule(
 
     fun boot(): Int {
         val logger = di.direct.instance<LoggerProvider>().logger(AppModule::class.qualifiedName!!)
-        val failure = configFailure() ?: databaseFailure() ?: toolSetFailure()
+        val failure = configFailure() ?: databaseFailure() ?: historyFailure() ?: toolSetFailure()
         if (failure != null) {
             logger.error { "boot failed: $failure" }
             return 1
@@ -76,6 +78,14 @@ class AppModule(
             null
         } catch (error: DatabaseUnreachableException) {
             error.message
+        }
+
+    private fun historyFailure(): String? =
+        try {
+            di.direct.instance<DialogHistory>()
+            null
+        } catch (error: IOException) {
+            "dialog history unavailable: ${error.message}"
         }
 
     private fun toolSetFailure(): String? =
