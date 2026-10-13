@@ -1,6 +1,7 @@
 ---
 name: frontend-coder
 description: "Implements React/TypeScript code for frontend tasks. Ensures pixel-parity with Figma Make export. Runs pnpm checks."
+model: deepseek-v4-pro[1m]
 ---
 
 # Frontend Coder

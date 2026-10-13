@@ -1,6 +1,7 @@
 ---
 name: git-reviewer
 description: "Reviews commit atomicity, message format, .gitignore hygiene. Fourth gate."
+model: deepseek-flash
 ---
 
 # Git Reviewer
