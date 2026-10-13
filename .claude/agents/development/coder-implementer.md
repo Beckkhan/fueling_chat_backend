@@ -1,6 +1,6 @@
 ---
 name: coder-implementer
-description: "Reads scaffold and fills implementation inside TODO blocks. No signature changes. Uses deepseek-v4-flash model. For second branch only."
+description: "Reads scaffold and fills implementation inside TODO blocks. No signature changes. Uses deepseek-v4-flash model. Dual-coder pipelines (second and third branches)."
 model: deepseek-v4-flash
 ---
 

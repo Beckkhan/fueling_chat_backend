@@ -1,6 +1,6 @@
 ---
 name: frontend-implementer
-description: "Fills frontend scaffold with implementation (React/Vite/TypeScript). For second branch only."
+description: "Fills frontend scaffold with implementation (React/Vite/TypeScript). Dual-coder pipelines (second and third branches)."
 model: deepseek-v4-flash
 ---
 

@@ -13,6 +13,8 @@ You may not change requirements, architecture, agent scopes, or task definitions
 
 ## Steps
 
+BRANCH OVERRIDE: on branch third, ignore the sequential skeleton in this section and follow the Parallel Spawning Protocol (Phase 0-3); on first/second follow this sequential skeleton.
+
 1. Read `docs/tasks/INDEX.md` to get the task backlog and dependency graph.
 2. Interpret `$ARGUMENTS`:
    - empty or `all` — run every `todo` task whose dependencies are `done`, in dependency order
