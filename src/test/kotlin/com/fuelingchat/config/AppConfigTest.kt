@@ -56,7 +56,7 @@ class AppConfigTest {
         assertEquals("jdbc:postgresql://localhost:25432/vendors", config.vendorsDbUrl)
         assertEquals("secret-ds", config.deepseekApiKey)
         assertEquals("deepseek-chat", config.deepseekModel)
-        assertEquals("http://localhost:11434/v1", config.ollamaBaseUrl)
+        assertEquals("http://localhost:11434", config.ollamaBaseUrl)
         assertEquals("qwen2.5", config.ollamaModel)
         assertEquals("1.3.0", config.koogVersion)
         assertEquals(Path.of("data/dialog-history.jsonl"), config.dialogHistoryFile)
