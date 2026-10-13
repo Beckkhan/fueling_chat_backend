@@ -12,7 +12,7 @@ import org.kodein.di.singleton
 val clientModule =
     DI.Module("client") {
         bind<LlmClient>(tag = "local") with singleton { OllamaLlmClient(instance(), koogHttpClientFactory()) }
-        bind<LlmClient>(tag = "remote") with singleton { error("LlmClient 'remote' lands with the D-16 branch task") }
+        bind<LlmClient>(tag = "remote") with singleton { DeepSeekLlmClient(instance(), koogHttpClientFactory()) }
     }
 
 // Apache5 3.3.3 is a transitive dependency of Koog's http-client-ktor, so no production dependency

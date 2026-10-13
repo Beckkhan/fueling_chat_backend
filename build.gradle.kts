@@ -29,6 +29,10 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:3.3.3")
     implementation("org.kodein.di:kodein-di-jvm:7.33.0")
     implementation("ai.koog:koog-agents-jvm:1.3.0")
+    // D-16 wording deviation: Koog's DeepSeek client module is published only as 1.3.0-beta while
+    // core Koog stays pinned at 1.3.0. Verified against the pinned POM/module metadata: it depends
+    // on prompt-executor-openai-client-base-jvm:1.3.0, which is already on the resolved classpath.
+    implementation("ai.koog:prompt-executor-deepseek-client-jvm:1.3.0-beta")
     implementation("org.jetbrains.exposed:exposed-core:0.61.0")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.61.0")
     implementation("org.jetbrains.exposed:exposed-java-time:0.61.0")
