@@ -2,7 +2,6 @@ package com.fuelingchat.infra.llm
 
 import ai.koog.http.client.KoogHttpClient
 import ai.koog.http.client.ktor.KtorKoogHttpClient
-import com.fuelingchat.config.AppConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache5.Apache5
 import org.kodein.di.DI
