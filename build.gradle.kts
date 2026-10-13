@@ -42,6 +42,8 @@ dependencies {
     testImplementation("io.mockk:mockk:1.14.11")
     // T11 (integrator-owned): testApplication host for the route tests
     testImplementation("io.ktor:ktor-server-test-host-jvm:3.3.3")
+    // T13 (integrator-owned): MockEngine for Ollama client tests
+    testImplementation("io.ktor:ktor-client-mock-jvm:3.3.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
