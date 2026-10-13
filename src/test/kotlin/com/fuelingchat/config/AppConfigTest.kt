@@ -56,7 +56,7 @@ class AppConfigTest {
         assertEquals("jdbc:postgresql://localhost:25432/vendors", config.vendorsDbUrl)
         assertEquals("secret-ds", config.deepseekApiKey)
         assertEquals("deepseek-chat", config.deepseekModel)
-        assertEquals("http://localhost:11434/v1", config.ollamaBaseUrl)
+        assertEquals("http://localhost:11434", config.ollamaBaseUrl)
         assertEquals("qwen2.5", config.ollamaModel)
         assertEquals("1.3.0", config.koogVersion)
         assertEquals(Path.of("data/dialog-history.jsonl"), config.dialogHistoryFile)
@@ -79,7 +79,7 @@ class AppConfigTest {
                     VENDORS_DB_URL=jdbc:postgresql://db.internal:15432/vendors
                     DEEPSEEK_API_KEY=ds-key
                     DEEPSEEK_MODEL=ds-model
-                    OLLAMA_BASE_URL=http://ollama:11434/v1
+                    OLLAMA_BASE_URL=http://ollama:11434
                     OLLAMA_MODEL=llama3
                     KOOG_VERSION=9.9.9
                     DIALOG_HISTORY_FILE=journal.jsonl
@@ -98,7 +98,7 @@ class AppConfigTest {
         assertEquals("jdbc:postgresql://db.internal:15432/vendors", config.vendorsDbUrl)
         assertEquals("ds-key", config.deepseekApiKey)
         assertEquals("ds-model", config.deepseekModel)
-        assertEquals("http://ollama:11434/v1", config.ollamaBaseUrl)
+        assertEquals("http://ollama:11434", config.ollamaBaseUrl)
         assertEquals("llama3", config.ollamaModel)
         assertEquals("9.9.9", config.koogVersion)
         assertEquals(Path.of("journal.jsonl"), config.dialogHistoryFile)

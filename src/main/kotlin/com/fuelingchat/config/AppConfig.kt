@@ -18,7 +18,7 @@ class AppConfig(
     val vendorsDbUrl: String = valueOrDefault("VENDORS_DB_URL", "jdbc:postgresql://localhost:25432/vendors")
     val deepseekApiKey: String = requiredValue("DEEPSEEK_API_KEY")
     val deepseekModel: String = requiredValue("DEEPSEEK_MODEL")
-    val ollamaBaseUrl: String = valueOrDefault("OLLAMA_BASE_URL", "http://localhost:11434/v1")
+    val ollamaBaseUrl: String = valueOrDefault("OLLAMA_BASE_URL", "http://localhost:11434")
     val ollamaModel: String = requiredValue("OLLAMA_MODEL")
     val koogVersion: String = valueOrDefault("KOOG_VERSION", "1.3.0")
     val dialogHistoryFile: Path = Path.of(valueOrDefault("DIALOG_HISTORY_FILE", "data/dialog-history.jsonl"))
