@@ -32,6 +32,13 @@ Detailed per-agent token tracking for cost analysis.
 | T14 | second | simplicity-reviewer | deepseek-flash | 231 | 0 | 55424 | 642 | 74814 |
 | T14 | second | git-reviewer | deepseek-flash | 157 | 0 | 47104 | 779 | 104670 |
 | T14 | second | code-style-reviewer | deepseek-flash | 237 | 0 | 110592 | 917 | 553185 |
+| T15 | second | frontend-architect | deepseek-v4-pro[1m] | 192 | 0 | 89728 | 1521 | 460338 |
+| T15 | second | frontend-implementer | deepseek-v4-flash | 256 | 0 | 56832 | 1097 | 181183 |
+| T15 | second | test-engineer | deepseek-flash | 254 | 0 | 67328 | 672 | 428063 |
+| T15 | second | correctness-reviewer | deepseek-flash | 242 | 0 | 65792 | 848 | 158831 |
+| T15 | second | simplicity-reviewer | deepseek-flash | 152 | 0 | 43648 | 541 | 68046 |
+| T15 | second | git-reviewer | deepseek-flash | 136 | 0 | 71040 | 886 | 209295 |
+| T15 | second | code-style-reviewer | deepseek-flash | 173 | 0 | 86016 | 944 | 334232 |
 
 Notes:
 - Tokens extracted from Agent() completion notifications (subagent_tokens breakdown)
