@@ -11,11 +11,11 @@ TOTAL BLOCKED TIME = 0 min
 
 | Task | Wall-clock (min) | Wave |
 |---|---|---|
-| T11 | | Wave 1 |
-| T12 | | Wave 2 |
+| T11 | 22 | Wave 1 |
+| T12 | 23 | Wave 2 |
 | T13 | | Wave 3 |
 | T14 | | Wave 3 |
-| T15 | | Wave 2 |
+| T15 | 8 | Wave 2 |
 
 ## Wall-clock vs sum(duration_ms) note
 
