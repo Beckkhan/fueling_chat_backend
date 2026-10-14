@@ -55,6 +55,17 @@ Detailed per-agent token tracking for cost analysis.
 | T14 | third | test-engineer | deepseek-v4-flash | 140 | 0 | 84992 | 868 | 233306 |
 | T14 | third | code-style-reviewer | deepseek-v4-flash | 234 | 0 | 60672 | 614 | 145812 |
 | T14 | third | correctness-reviewer | deepseek-v4-flash | 163 | 0 | 119680 | 839 | 358713 |
+| T15 | third | frontend-architect | deepseek-v4-pro[1m] | 210 | 0 | 76416 | 1301 | 416888 |
+| T15 | third | frontend-implementer | deepseek-v4-flash | 155 | 0 | 30080 | 1103 | 45030 |
+| T15 | third | frontend-implementer | deepseek-v4-flash | 170 | 0 | 45184 | 915 | 124234 |
+| T15 | third | frontend-implementer | deepseek-v4-flash | 175 | 0 | 47488 | 1143 | 126621 |
+| T15 | third | frontend-implementer | deepseek-v4-flash | 184 | 0 | 46976 | 1076 | 125301 |
+| T15 | third | frontend-integrator | deepseek-v4-flash | 224 | 0 | 47872 | 956 | 141891 |
+| T15 | third | simplicity-reviewer | deepseek-v4-flash | 216 | 0 | 42624 | 402 | 80751 |
+| T15 | third | git-reviewer | deepseek-v4-flash | 258 | 0 | 35840 | 498 | 86683 |
+| T15 | third | test-engineer | deepseek-v4-flash | 184 | 0 | 52864 | 508 | 139768 |
+| T15 | third | correctness-reviewer | deepseek-v4-flash | 182 | 0 | 59776 | 636 | 149793 |
+| T15 | third | code-style-reviewer | deepseek-v4-flash | 246 | 0 | 80384 | 737 | 275097 |
 
 Notes:
 - Tokens extracted from Agent() completion notifications (subagent_tokens breakdown)
