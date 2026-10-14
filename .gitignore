@@ -6,6 +6,7 @@
 build/
 data/
 .gradle/
+.kotlin/
 
 # OS / IDE
 .DS_Store
