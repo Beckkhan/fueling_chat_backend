@@ -42,6 +42,10 @@ For each wave:
 1. Record task wall-clock in metrics/incidents.md
 2. Update docs/tasks/INDEX.md: task status → done
 3. Commit: "T<n>: mark done"
+- Record the task wall-clock (minutes, from wave start to task close) in the per-task wall-clock table of metrics/incidents.md, and update the wave row in metrics/waves.md when the wave completes.
+
+## Token Tracking Protocol
+After EVERY Agent() completion notification, extract the subagent_tokens breakdown (input_tokens, cache_creation_input_tokens, cache_read_input_tokens, output_tokens) and the agent duration. Append exactly one row to metrics/cto-ledger.md in the 9-column format: Task ID, Branch (final), Agent Type (with block id for implementers, e.g. "implementer (T12-block2)"), Model, input_tokens, cache_create, cache_read, output_tokens, duration_ms. Rows are append-only — never edit a previous row. If a completion notification lacks token data, append the row with zeros and add "no-token-data" in a trailing comment line below the table.
 
 ## Concurrency limits
 - Max 6 concurrent implementers (to avoid resource exhaustion)
