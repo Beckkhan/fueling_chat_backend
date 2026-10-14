@@ -13,7 +13,8 @@ val clientModule =
         // Ollama client (T13) and the DeepSeek client (T14) share this untagged singleton.
         bind<KoogHttpClient.Factory>() with singleton { KtorKoogHttpClient.Factory() }
 
-        // Consumed by ProviderRouter as instance(tag = "local") in ServiceModule.
+        // Consumed by ProviderRouter (ServiceModule) as instance(tag = "local"/"remote").
+        // T14 (integrator-owned): both named bindings are real clients — no LlmClient stub remains.
         bind<LlmClient>(tag = "local") with singleton { OllamaLlmClient(instance(), instance()) }
-        bind<LlmClient>(tag = "remote") with singleton { error("LlmClient 'remote' lands with the D-16 branch task") }
+        bind<LlmClient>(tag = "remote") with singleton { DeepSeekLlmClient(instance(), instance()) }
     }

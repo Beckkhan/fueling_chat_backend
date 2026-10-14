@@ -28,6 +28,9 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:3.3.3")
     implementation("org.kodein.di:kodein-di-jvm:7.33.0")
     implementation("ai.koog:koog-agents-jvm:1.3.0")
+    // T14 (integrator-owned): the DeepSeek client ships as a separate artifact, only as 1.3.0-beta
+    // (koog-agents-jvm 1.3.0 does not pull it); its compile dep openai-client-base 1.3.0 is already pinned.
+    implementation("ai.koog:prompt-executor-deepseek-client-jvm:1.3.0-beta")
     implementation("org.jetbrains.exposed:exposed-core:0.61.0")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.61.0")
     implementation("org.jetbrains.exposed:exposed-java-time:0.61.0")
