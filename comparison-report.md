@@ -6,8 +6,8 @@ Generated 2026-10-14 on main. Aggregates metrics/cto-ledger.md and metrics/incid
 
 - Winner by time: third (139.0 min vs next best second 172.1 min, 19.2% faster)
 - Winner by cost: second ($0.0812 vs next best third $0.1035, 1.27x cheaper)
-- Winner by quality: second (0 handbacks vs next best third 2)
-- Overall recommendation: use third (parallel dual-coder) as the default pipeline for a multi-component backlog — 139.0 min wall-clock, 19.2% faster than second and 28.3% faster than first, at $0.1035 total cost (1.27x second's cost floor), with both of its handbacks resolved in-pipeline. Fall back to second (sequential dual-coder) when first-pass quality (0 handbacks) or the cost floor dominates, and to first only for small, tightly-coupled tasks (it won T11 and T14 individually).
+- Winner by quality: second (0 handbacks vs third 1 — third's single handback is the T11 code-style FAIL, resolved in-pipeline; first had 3)
+- Overall recommendation: use third (parallel dual-coder) as the default pipeline for a multi-component backlog — 139.0 min wall-clock, 19.2% faster than second and 28.3% faster than first, at $0.1035 total cost (1.27x second's cost floor), with its single handback resolved in-pipeline. Fall back to second (sequential dual-coder) when first-pass quality (0 handbacks) or the cost floor dominates, and to first only for small, tightly-coupled tasks (it won T11 and T14 individually).
 
 ## Wall-clock Time Comparison
 
@@ -40,9 +40,9 @@ Note: first and second ran agents sequentially — per-task value is sum of agen
 | T11 | 1 | 0 | 1 | second |
 | T12 | 0 | 0 | 0 | tie |
 | T13 | 1 | 0 | 0 | tie (second/third) |
-| T14 | 0 | 0 | 1 | tie (first/second) |
+| T14 | 0 | 0 | 0 | tie (first/second/third) |
 | T15 | 1 | 0 | 0 | tie (second/third) |
-| Total | 3 | 0 | 2 | second |
+| Total | 3 | 0 | 1 | second (0 handbacks; third 1 behind) |
 
 Handback events:
 
@@ -50,7 +50,8 @@ Handback events:
 - first T13 — simplicity-reviewer gate — dead import (`AppConfig` at `ClientModule.kt:5`), the sole leftover of the removed `error()` stub edit.
 - first T15 — code-style-reviewer gate — `src/api/chat.test.ts` not Prettier-clean (two lines over `printWidth: 100`), and `pnpm lint` has no prettier check wired in.
 - third T11 — code-style gate (CTO) — `chatRoutes` at 47 lines vs the spec §5 cap of 30 plus two over-long test methods; blocks B3 and B4 were re-spawned with the findings.
-- third T14 — coder-implementer (B1 rework) — ledger-recorded rework of the `DeepSeekLlmClient.kt` block; the T14 task file carries no Handbacks section, so no gate finding is documented.
+
+In-phase block corrections (not handbacks): on third T14, the B2-implementer caught a null-capabilities defect in B1's `DeepSeekLlmClient` before integration; B1 reworked its own block, and integration then passed first-try with all 5 quality gates green on round 1. This is a block-scoped correction, not a reviewer FAIL, so it does not count as a handback.
 
 ## Token Usage Comparison
 
@@ -75,7 +76,7 @@ Note: on the parallel branch (third) the sum of duration_ms intentionally exceed
 
 1. Time leverage: third finished the backlog in 139.0 min — 19.2% faster than second (172.1 min) and 28.3% faster than first (193.8 min). Parallel reviewers account for the largest share of the gain: on second, the five sequential gates consumed 94.9 min of its 172.1-min total (55%), and third's parallel gates collapse that phase to the slowest reviewer per task. Parallel implementers contribute the remainder — third's fan-out absorbs 89.4 min of serial implementer-plus-integrator work into the wall-clock overlap — and third wins the two widest fan-out tasks outright (T12, T15) while tying second on T13.
 2. Cost leverage: second is the cheapest branch at $0.0812 for the whole backlog. The parallel branch does pay a token overhead over its sequential counterpart: third totals $0.1035 (1.27x second) with 3.2x the input, 1.4x the cache_read and 1.8x the output tokens — the extra implementer rows, the integrator, and T11's rework round. Both dual-coder branches remain 63.6x and 81.0x cheaper than first ($6.5777), which bills v4-pro rates against million-token single-agent transcripts.
-3. Quality: second had 0 handbacks across all 25 gates. first had 3 — T11 and T13 dead imports caught by the simplicity gate and T15 Prettier violations caught by the code-style gate, all review classes the linters do not cover, each requiring owner rework plus gate re-runs. third had 2 — a T11 code-style handback (function-length violations against the global spec §5 caps, which the scaffold did not encode) and a T14 block rework recorded in the ledger without a documented gate finding.
+3. Quality: second had 0 handbacks across all 25 gates. first had 3 — T11 and T13 dead imports caught by the simplicity gate and T15 Prettier violations caught by the code-style gate, all review classes the linters do not cover, each requiring owner rework plus gate re-runs. third had 1 handback — a T11 code-style FAIL (function-length violations against the spec §5 caps, which the T11 scaffold did not encode). A T14 block rework is recorded in the ledger but is an in-phase correction, not a gate FAIL, and is documented separately.
 4. Cache efficiency: first consumed 177.1M cache_read tokens vs 2.98M (second) and 4.14M (third) — 59.5x and 42.8x more. The mechanism is per-agent context size: first's single agent carries one large transcript through five sequential gates, so every gate re-reads the whole conversation (T13 alone reads 64.0M), while the dual-coder branches hand each agent a small scaffold context (~50-150k per agent), keeping transcripts short even with fan-out and rework rounds.
 5. Parallelism caveat: parallel branches trade sequential convenience for wall-clock time — third needs block decomposition, a per-file ownership map, an integrator, and parallel-gate tree discipline (its one logged incident was a ktlintFormat XML write collision between two concurrent gates, absorbed inside a gate re-run). third also paid for an initial global-invariant gap: the spec §5 line caps were not encoded in the T11 scaffold, which produced its one documented handback (T11 code-style). The planned final branch is designed to carry global invariants into the scaffolds from the start.
 
@@ -100,7 +101,7 @@ Note: on the parallel branch (third) the sum of duration_ms intentionally exceed
 - Wall-clock is the binding constraint — 139.0 min, 19.2% faster than second.
 - Tasks are larger and multi-component, decomposing into independent blocks.
 - Gate throughput matters — five reviewers run in parallel per task.
-- A modest premium is acceptable — 1.27x second's cost and 2 handbacks (vs 0), both resolved in-pipeline.
+- A modest premium is acceptable — 1.27x second's cost and 1 handback (vs 0), resolved in-pipeline.
 
 ### General recommendation
 
@@ -113,7 +114,7 @@ Default to third (parallel dual-coder) for a multi-component backlog: 139.0 min 
 - Branch-specific agent configurations in .claude/agents/ (model frontmatter on every agent).
 - Tokens and durations read from each branch's metrics/cto-ledger.md.
 - Wall-clock for first and second is the sum of per-agent duration_ms (sequential pipelines). Wall-clock for third is the reconciled per-task value from third:metrics/incidents.md (mark-done commit timestamps).
-- Handbacks counted from the task files' Handbacks sections and from (fix)/(r2)/rework/amend ledger rows.
+- Handbacks counted from the task files' Handbacks sections and from (fix)/(r2)/rework/amend ledger rows that record a reviewer FAIL; in-phase rework rows without a gate FAIL (third's T14 B1 rework) are excluded.
 
 ## Data Quality Notes
 
@@ -121,4 +122,5 @@ Default to third (parallel dual-coder) for a multi-component backlog: 139.0 min 
 - Wall-clock for third is exact at one-decimal granularity for T12-T15; T11 is approximate (session start timestamp).
 - cache_create is 0 on all branches.
 - Sum of duration_ms on the parallel branch (third) deliberately exceeds wall-clock (parallel overlap).
+- third's T14 ledger row labeled (B1 rework) is an in-phase block correction, not a reviewer-FAIL handback; the task file carries no Handbacks section for T14.
 - Branch final is not yet part of this report.
