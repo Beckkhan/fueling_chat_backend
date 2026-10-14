@@ -13,8 +13,8 @@ TOTAL BLOCKED TIME = 0 min
 |---|---|---|
 | T11 | 22 | Wave 1 |
 | T12 | 23 | Wave 2 |
-| T13 | | Wave 3 |
-| T14 | | Wave 3 |
+| T13 | 28 | Wave 3 |
+| T14 | 30 | Wave 3 |
 | T15 | 8 | Wave 2 |
 
 ## Wall-clock vs sum(duration_ms) note

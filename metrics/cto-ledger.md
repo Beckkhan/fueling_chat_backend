@@ -48,6 +48,30 @@ Detailed per-agent token tracking for cost analysis.
 | T12 | final | meta-reviewer | n/a | 0 | 0 | 0 | 0 | 0 |
 <!-- no-token-data: T12 meta-reviewer completion notification did not include a token breakdown -->
 <!-- T12 meta-reviewer partial usage from completion notification: subagent_tokens total = 80977, duration_ms = 306420 (breakdown columns unavailable) -->
+| T14 | final | implementer (T14-block2) | n/a | 0 | 0 | 0 | 0 | 0 |
+<!-- no-token-data: T14-block2 completion notification did not include a token breakdown -->
+<!-- T14-block2 partial usage from completion notification: subagent_tokens total = 139398, duration_ms = 628543 (breakdown columns unavailable) -->
+| T13 | final | implementer (T13-block1) | n/a | 0 | 0 | 0 | 0 | 0 |
+<!-- no-token-data: T13-block1 completion notification did not include a token breakdown -->
+<!-- T13-block1 partial usage from completion notification: subagent_tokens total = 163628, duration_ms = 646492 (breakdown columns unavailable) -->
+| T14 | final | implementer (T14-block1) | n/a | 0 | 0 | 0 | 0 | 0 |
+<!-- no-token-data: T14-block1 completion notification did not include a token breakdown -->
+<!-- T14-block1 partial usage from completion notification: subagent_tokens total = 127964, duration_ms = 707139 (breakdown columns unavailable) -->
+| T13 | final | implementer (T13-block2) | n/a | 0 | 0 | 0 | 0 | 0 |
+<!-- no-token-data: T13-block2 completion notification did not include a token breakdown -->
+<!-- T13-block2 partial usage from completion notification: subagent_tokens total = 145896, duration_ms = 889154 (breakdown columns unavailable) -->
+| T13 | final | integrator | n/a | 0 | 0 | 0 | 0 | 0 |
+<!-- no-token-data: T13 integrator completion notification did not include a token breakdown -->
+<!-- T13 integrator partial usage from completion notification: subagent_tokens total = 73105, duration_ms = 330282 (breakdown columns unavailable) -->
+| T14 | final | integrator | n/a | 0 | 0 | 0 | 0 | 0 |
+<!-- no-token-data: T14 integrator completion notification did not include a token breakdown -->
+<!-- T14 integrator partial usage from completion notification: subagent_tokens total = 39544, duration_ms = 113280 (breakdown columns unavailable) -->
+| T13 | final | meta-reviewer | n/a | 0 | 0 | 0 | 0 | 0 |
+<!-- no-token-data: T13 meta-reviewer completion notification did not include a token breakdown -->
+<!-- T13 meta-reviewer partial usage from completion notification: subagent_tokens total = 83159, duration_ms = 370956 (breakdown columns unavailable) -->
+| T14 | final | meta-reviewer | n/a | 0 | 0 | 0 | 0 | 0 |
+<!-- no-token-data: T14 meta-reviewer completion notification did not include a token breakdown -->
+<!-- T14 meta-reviewer partial usage from completion notification: subagent_tokens total = 75334, duration_ms = 356693 (breakdown columns unavailable) -->
 
 Notes:
 - Tokens extracted from Agent() completion notifications (subagent_tokens breakdown)
