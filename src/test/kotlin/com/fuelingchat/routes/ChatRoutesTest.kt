@@ -61,7 +61,8 @@ class ChatRoutesTest {
             chatApp(fake)
 
             val empty = client.postChat("""{"prompt": ""}""")
-            // The JSON escapes below decode to a tab and a newline: whitespace-only, still a blank prompt.
+            // The body carries literal tab/newline characters inside the prompt (DefaultJson accepts
+            // literal control chars): whitespace-only, still a blank prompt.
             val whitespaceOnly = client.postChat("""{"prompt": " \t\n "}""")
 
             assertEquals(HttpStatusCode.BadRequest, empty.status)
