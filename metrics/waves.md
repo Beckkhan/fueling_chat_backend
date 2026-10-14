@@ -6,6 +6,16 @@
 | Wave 2 | T12, T15 | 2026-10-14 18:11:49 | 2026-10-14 18:34:53 | 23 | 5 impl + 2 integrators + 2 meta-reviewers (overlapped with Waves 1/3) |
 | Wave 3 | T13, T14 | 2026-10-14 18:29:21 | 2026-10-14 18:59:10 | 30 | 4 impl + 2 integrators (sequenced on shared ClientModule.kt) + 2 meta-reviewers |
 
+## Run totals
+
+| Metric | Value |
+|---|---|
+| Run wall-clock (Wave 1 start → T14 close) | 61 min |
+| Tasks completed | 5/5 (T11, T12, T13, T14, T15 — all meta-review PASS) |
+| Fixer cycles | 0 |
+| Handbacks | 0 |
+| Blocked time | 0 min |
+
 ## Concurrency achieved
 
 | Phase | Max concurrent agents | Average concurrent agents |
