@@ -40,6 +40,7 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.14.4")
     testImplementation("io.mockk:mockk:1.14.11")
+    testImplementation("io.ktor:ktor-server-test-host-jvm:3.3.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 

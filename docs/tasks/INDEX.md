@@ -16,7 +16,7 @@ Phase 3 of 6: DECOMPOSITION. Foundation backlog for `main` — 10 atomic tasks (
 | [T08](T08.md) | UI components & state | `frontend-coder` | T07 | CONTRACT-UI-001 | `done` |
 | [T09](T09.md) | API client & integration | `frontend-coder` | T08 | CONTRACT-API-001, CONTRACT-API-002 | `done` |
 | [T10](T10.md) | CI workflows | `git-reviewer` | T01, T07 | — | `done` |
-| [T11](T11.md) | Ktor Chat Route | `backend-coder` | — | CONTRACT-API-001 | `todo` |
+| [T11](T11.md) | Ktor Chat Route | `backend-coder` | — | CONTRACT-API-001 | `in progress` |
 | [T12](T12.md) | ChatService & DialogHistory | `backend-coder` | T11 | CONTRACT-SERVICE-001, CONTRACT-HISTORY-001 | `todo` |
 | [T13](T13.md) | Koog LlmClient 'local' (Ollama) | `backend-coder` | T12 | CONTRACT-LLM-001 | `todo` |
 | [T14](T14.md) | Koog LlmClient 'remote' (DeepSeek) | `backend-coder` | T12 | CONTRACT-LLM-002 | `todo` |

@@ -10,10 +10,16 @@ import com.fuelingchat.infra.db.dbModule
 import com.fuelingchat.infra.llm.clientModule
 import com.fuelingchat.infra.logging.LoggerProvider
 import com.fuelingchat.infra.logging.loggingModule
+import com.fuelingchat.routes.chatRoutes
+import com.fuelingchat.service.ChatService
 import com.fuelingchat.service.serviceModule
 import com.fuelingchat.service.tool.GetFuelingInfoTool
+import io.ktor.serialization.kotlinx.json.json
+import io.ktor.server.application.install
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.server.routing.routing
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.Database
 import org.kodein.di.DI
@@ -40,7 +46,16 @@ class AppModule(
             logger.error { "boot failed: $failure" }
             return 1
         }
-        runBlocking { embeddedServer(Netty, port = 8080, host = "0.0.0.0") {}.start(wait = true) }
+        runBlocking {
+            embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
+                install(ContentNegotiation) {
+                    json()
+                }
+                routing {
+                    chatRoutes { di.direct.instance<ChatService>() }
+                }
+            }.start(wait = true)
+        }
         return 0
     }
 
