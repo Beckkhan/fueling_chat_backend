@@ -9,6 +9,20 @@ config:
 style:
   MagicNumber:
     active: false
+  MaxLineLength:
+    maxLineLength: 120
+  WildcardImport:
+    active: true
+
+complexity:
+  LongMethod:
+    threshold: 40
+  LongParameterList:
+    functionThreshold: 5
+  TooManyFunctions:
+    thresholdInClasses: 15
+  NestedBlockDepth:
+    threshold: 3
 
 naming:
   ConstructorParameterNaming:
