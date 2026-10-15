@@ -11,6 +11,7 @@ import com.fuelingchat.infra.llm.clientModule
 import com.fuelingchat.infra.logging.LoggerProvider
 import com.fuelingchat.infra.logging.loggingModule
 import com.fuelingchat.routes.chatRoutes
+import com.fuelingchat.routes.installCors
 import com.fuelingchat.service.ChatService
 import com.fuelingchat.service.serviceModule
 import com.fuelingchat.service.tool.GetFuelingInfoTool
@@ -52,6 +53,7 @@ class AppModule(
                 install(ContentNegotiation) {
                     json()
                 }
+                installCors()
                 routing {
                     chatRoutes { di.direct.instance<ChatService>() }
                 }
