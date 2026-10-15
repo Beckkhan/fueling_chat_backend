@@ -20,6 +20,7 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.routing.routing
+import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.Database
 import org.kodein.di.DI
@@ -54,7 +55,11 @@ class AppModule(
                 routing {
                     chatRoutes { di.direct.instance<ChatService>() }
                 }
-            }.start(wait = true)
+            }.start(wait = false)
+            // Keep the runBlocking event loop alive without blocking it: request coroutines inherit this
+            // event loop as their interceptor, and a blocked loop (start(wait = true) waits on a Netty
+            // close-future) would never process their resumptions, stalling every suspending handler.
+            awaitCancellation()
         }
         return 0
     }

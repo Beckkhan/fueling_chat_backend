@@ -9,6 +9,8 @@ import ai.koog.prompt.dsl.prompt
 import ai.koog.prompt.executor.clients.LLMClient
 import ai.koog.prompt.executor.llms.MultiLLMPromptExecutor
 import ai.koog.prompt.llm.LLModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 private const val ROLE_ASSISTANT = "assistant"
 private const val TURN_PROMPT_ID = "chat"
@@ -42,7 +44,9 @@ class KoogChatRunner(
                 agentConfig = turnConfig(systemPrompt, history),
                 toolRegistry = toolRegistry,
             )
-        return agent.run(userMessage)
+        return withContext(Dispatchers.IO) {
+            agent.run(userMessage)
+        }
     }
 
     private fun turnConfig(

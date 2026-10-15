@@ -7,6 +7,8 @@ import ai.koog.prompt.executor.clients.LLMClientException
 import com.fuelingchat.infra.llm.ChatMessage
 import com.fuelingchat.infra.llm.LlmClient
 import com.fuelingchat.service.tool.GetFuelingInfoTool
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.exceptions.ExposedSQLException
 
 private const val ROLE_USER = "user"
@@ -39,7 +41,9 @@ class ChatServiceImpl(
     ): ChatTurn {
         val resolved = providerRouter.resolve(provider)
         val summary = runResolved(resolved, fuelingId, prompt)
-        appendTurn(prompt, summary)
+        withContext(Dispatchers.IO) {
+            appendTurn(prompt, summary)
+        }
         return ChatTurn(summary, resolved)
     }
 
