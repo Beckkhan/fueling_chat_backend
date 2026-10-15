@@ -20,6 +20,7 @@ val serviceModule =
                     instance(),
                     instance(),
                     instance(),
+                    instance(),
                     instance(tag = "local"),
                     instance(tag = "remote"),
                 )

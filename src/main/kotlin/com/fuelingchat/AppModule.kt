@@ -9,6 +9,7 @@ import com.fuelingchat.infra.db.DbPools
 import com.fuelingchat.infra.db.dbModule
 import com.fuelingchat.infra.llm.clientModule
 import com.fuelingchat.infra.logging.LoggerProvider
+import com.fuelingchat.infra.logging.installRequestLogging
 import com.fuelingchat.infra.logging.loggingModule
 import com.fuelingchat.routes.chatRoutes
 import com.fuelingchat.routes.installCors
@@ -53,11 +54,13 @@ class AppModule(
                 install(ContentNegotiation) {
                     json()
                 }
+                installRequestLogging()
                 installCors()
                 routing {
                     chatRoutes { di.direct.instance<ChatService>() }
                 }
             }.start(wait = false)
+            logger.info { "server listening on 0.0.0.0:8080" }
             // Keep the runBlocking event loop alive without blocking it: request coroutines inherit this
             // event loop as their interceptor, and a blocked loop (start(wait = true) waits on a Netty
             // close-future) would never process their resumptions, stalling every suspending handler.

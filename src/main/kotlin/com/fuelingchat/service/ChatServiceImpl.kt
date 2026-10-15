@@ -6,6 +6,7 @@ import ai.koog.http.client.KoogHttpClientException
 import ai.koog.prompt.executor.clients.LLMClientException
 import com.fuelingchat.infra.llm.ChatMessage
 import com.fuelingchat.infra.llm.LlmClient
+import com.fuelingchat.infra.logging.LoggerProvider
 import com.fuelingchat.service.tool.GetFuelingInfoTool
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -28,11 +29,14 @@ class ChatServiceImpl(
     private val dialogHistory: DialogHistory,
     private val providerRouter: ProviderRouter,
     private val getFuelingInfoTool: GetFuelingInfoTool,
+    loggerProvider: LoggerProvider,
     private val localClient: LlmClient,
     private val remoteClient: LlmClient,
 ) : ChatService {
     /** Assembled here and never empty by construction (D-8); the tool call itself stays the model's choice. */
     private val tools: List<Tool<*, *>> = listOf(getFuelingInfoTool)
+
+    private val logger = loggerProvider.logger(ChatServiceImpl::class.qualifiedName!!)
 
     override suspend fun runTurn(
         prompt: String,
@@ -40,6 +44,7 @@ class ChatServiceImpl(
         provider: String?,
     ): ChatTurn {
         val resolved = providerRouter.resolve(provider)
+        logger.info { "chat turn: provider=$resolved, prompt_length=${prompt.length}" }
         val summary = runResolved(resolved, fuelingId, prompt)
         withContext(Dispatchers.IO) {
             appendTurn(prompt, summary)

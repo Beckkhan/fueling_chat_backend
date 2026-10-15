@@ -7,6 +7,7 @@ import ai.koog.prompt.executor.clients.LLMClientException
 import com.fuelingchat.infra.db.DbPools
 import com.fuelingchat.infra.llm.ChatMessage
 import com.fuelingchat.infra.llm.LlmClient
+import com.fuelingchat.infra.logging.LoggerProvider
 import com.fuelingchat.service.tool.GetFuelingInfoTool
 import com.fuelingchat.service.tool.ToolDescriptorLoader
 import io.mockk.coEvery
@@ -208,7 +209,7 @@ class ChatServiceTest {
     ): Fixture {
         val history = DialogHistory(journalFile, historyLimit)
         val tool = GetFuelingInfoTool(ToolDescriptorLoader().load(), mockk<DbPools>())
-        val service = ChatServiceImpl(history, ProviderRouter(), tool, local.client, remote.client)
+        val service = ChatServiceImpl(history, ProviderRouter(), tool, LoggerProvider(), local.client, remote.client)
         return Fixture(history, tool, local, remote, service)
     }
 }

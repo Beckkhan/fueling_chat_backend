@@ -3,11 +3,18 @@
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
+            <pattern>%highlight(%.-3level) %cyan(%date{HH:mm:ss.SSS}) %yellow(%-35.35logger) %X{correlation_id} %highlight(%msg) %n</pattern>
         </encoder>
     </appender>
 
     <logger name="com.fuelingchat" level="INFO"/>
+
+    <!-- Library noise control -->
+    <logger name="io.ktor" level="WARN"/>
+    <logger name="ai.koog" level="WARN"/>
+    <logger name="org.jetbrains.exposed" level="WARN"/>
+    <logger name="io.netty" level="INFO"/>
+    <logger name="com.zaxxer.hikari" level="INFO"/>
 
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>

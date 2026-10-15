@@ -26,6 +26,8 @@ dependencies {
     implementation("io.ktor:ktor-server-netty-jvm:3.3.3")
     implementation("io.ktor:ktor-server-content-negotiation-jvm:3.3.3")
     implementation("io.ktor:ktor-server-cors-jvm:3.3.3")
+    implementation("io.ktor:ktor-server-call-logging-jvm:3.3.3")
+    implementation("io.ktor:ktor-server-call-id-jvm:3.3.3")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:3.3.3")
     implementation("org.kodein.di:kodein-di-jvm:7.33.0")
     implementation("ai.koog:koog-agents-jvm:1.3.0")
